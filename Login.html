@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <style>
+    * { box-sizing: border-box; margin:0; padding:0; font-family: 'Segoe UI', Arial, sans-serif; }
+    body {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    .card {
+      background: #fff;
+      width: 380px;
+      max-width: 90vw;
+      border-radius: 16px;
+      padding: 40px 36px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+      animation: fadeUp 0.5s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .logo {
+      width: 60px; height: 60px; border-radius: 50%;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px; color: #fff; font-size: 26px; font-weight: bold;
+    }
+    h1 { text-align: center; font-size: 22px; color: #2d2d3a; margin-bottom: 6px; }
+    p.subtitle { text-align: center; color: #888; font-size: 13px; margin-bottom: 28px; }
+    label { font-size: 13px; color: #444; font-weight: 600; margin-bottom: 6px; display: block; }
+    input {
+      width: 100%; padding: 12px 14px; margin-bottom: 18px;
+      border: 1.5px solid #e0e0e6; border-radius: 8px; font-size: 14px;
+      transition: border 0.2s;
+    }
+    input:focus { outline: none; border-color: #764ba2; }
+    button {
+      width: 100%; padding: 13px; border: none; border-radius: 8px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: #fff; font-size: 15px; font-weight: 600; cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    button:hover { opacity: 0.92; }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+    .error {
+      background: #ffe6e6; color: #c0392b; font-size: 13px;
+      padding: 10px 12px; border-radius: 8px; margin-bottom: 16px; display: none;
+    }
+    .spinner {
+      display: none; width: 18px; height: 18px; border: 3px solid #fff;
+      border-top: 3px solid transparent; border-radius: 50%;
+      animation: spin 0.7s linear infinite; margin: 0 auto;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">T</div>
+    <h1>Task Portal</h1>
+    <p class="subtitle">Sign in to view your tasks & sheets</p>
+
+    <div class="error" id="errorBox"></div>
+
+    <label for="username">Username</label>
+    <input type="text" id="username" placeholder="Enter your username" autocomplete="username">
+
+    <label for="password">Password</label>
+    <input type="password" id="password" placeholder="Enter your password" autocomplete="current-password">
+
+    <button id="loginBtn" onclick="handleLogin()">
+      <span id="btnText">Login</span>
+      <div class="spinner" id="spinner"></div>
+    </button>
+  </div>
+
+  <script>
+    document.getElementById('password').addEventListener('keydown', function(e){
+      if (e.key === 'Enter') handleLogin();
+    });
+
+    function handleLogin() {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const errorBox = document.getElementById('errorBox');
+      const btn = document.getElementById('loginBtn');
+      const btnText = document.getElementById('btnText');
+      const spinner = document.getElementById('spinner');
+
+      errorBox.style.display = 'none';
+
+      if (!username || !password) {
+        errorBox.textContent = 'Please enter both username and password.';
+        errorBox.style.display = 'block';
+        return;
+      }
+
+      btn.disabled = true;
+      btnText.style.display = 'none';
+      spinner.style.display = 'block';
+
+      google.script.run
+        .withSuccessHandler(function(result) {
+          btn.disabled = false;
+          btnText.style.display = 'inline';
+          spinner.style.display = 'none';
+
+          if (result.success) {
+            // Save session info locally and redirect to dashboard view
+            sessionStorage.setItem('taskportal_user', JSON.stringify(result));
+            renderDashboard(result);
+          } else {
+            errorBox.textContent = result.message;
+            errorBox.style.display = 'block';
+          }
+        })
+        .withFailureHandler(function(err) {
+          btn.disabled = false;
+          btnText.style.display = 'inline';
+          spinner.style.display = 'none';
+          errorBox.textContent = 'Something went wrong. Please try again.';
+          errorBox.style.display = 'block';
+        })
+        .loginUser(username, password);
+    }
+
+    // Replace the whole page content with the dashboard once logged in
+    function renderDashboard(user) {
+      google.script.run
+        .withSuccessHandler(function(html) {
+          document.open();
+          document.write(html);
+          document.close();
+        })
+        .getDashboardHtml(user.username, user.role, user.fullName, user.token);
+    }
+  </script>
+</body>
+</html>
