@@ -8,7 +8,7 @@
  *    "AUTO PUNCH"          -> the hook inside loginUser()
  **********************************************************************/
 
-const SHEET_ID = '1tyZjvEhNS_1Hx6KXURWF_MLqLYPzKU6BSsXUigrgHmg'; // <-- the sheet with Users + SheetLinks tabs
+const SHEET_ID = ''; // <-- the sheet with Users + SheetLinks tabs
 const USERS_SHEET = 'Users';
 const SHEETLINKS_SHEET = 'SheetLinks';
 const NOTIFICATIONS_SHEET = 'Notifications';
@@ -35,13 +35,13 @@ const COLUMN_KEYWORDS_ = {
 // TASK-SYSTEM CONFIGURATION: one entry per employee's own task sheet
 // ============================================================
 const SHEETS_CONFIG = {
-  'person1': { id: '1Ixj3oj2N6gaB4FOzrG6-qnecABvI0Jj5VjX9-lSymTs', name: 'Brijpal_ji', sheetName: 'Brijpal_ji' },
-  'person2': { id: '1kkzH6IoEyDUGF7hQ72RvjXZqGeb9ImDYTHFXVwp5LxY', name: 'Mukesh',     sheetName: 'Sheet1' },
-  'person3': { id: '1jQ74rcSOFgSDAf0OXZuU-rq9no4g0TYSPvWYyBU4I4E', name: 'Sayeed',     sheetName: 'Sheet1' },
-  'person4': { id: '1ecaXRywqS_p2CAl8mEG4_2jrJe1GKU4HMYio4zPApGk', name: 'Prashant',   sheetName: 'Sheet1' },
-  'person5': { id: '15LtOnX_mBtw5zJ9Y4VWzco6-_fUO9Q5NiVdgy3UaOJI', name: 'Piyush',     sheetName: 'Sheet1' },
-  'person6': { id: '12PQgC_OyFp0qaLBOnUhEimocRpgfkK9fis7KFzVyVq4', name: 'Sonu',       sheetName: 'Ajay sir' },
-  'person7': { id: '1yVr-Rmx47MPqrksnU9LEanoiUyG5sQx7AW0WkyiQZdw', name: 'Nitesh',     sheetName: 'Sheet1' }
+  'person1': { id: '', name: 'Brijpal_ji', sheetName: 'Sheet1' },
+  'person2': { id: '', name: 'Mukesh',     sheetName: 'Sheet1' },
+  'person3': { id: '', name: 'Sayeed',     sheetName: 'Sheet1' },
+  'person4': { id: '', name: 'Prashant',   sheetName: 'Sheet1' },
+  'person5': { id: '', name: 'Piyush',     sheetName: 'Sheet1' },
+  'person6': { id: '', name: 'Sonu',       sheetName: 'Ajay sir' },
+  'person7': { id: '', name: 'Nitesh',     sheetName: 'Sheet1' }
 };
 
 const DATA_START_ROW = 4;
@@ -1735,7 +1735,7 @@ const WA_ACCESS_TOKEN    = getScriptProp_('WA_ACCESS_TOKEN', '');
 const WA_API_VERSION     = 'v21.0';
 const WA_TEMPLATE_NAME   = 'automatesystem';
 const WA_TEMPLATE_LANG   = waLangCode_(getScriptProp_('WA_TEMPLATE_LANG', 'en'));
-const WA_ADMIN_NUMBER    = getScriptProp_('WA_ADMIN_NUMBER', '919355483400');
+const WA_ADMIN_NUMBER    = getScriptProp_('WA_ADMIN_NUMBER', 'Number');
 // New 5-variable "Task Assigned" template (see notes above)
 const WA_ASSIGN_TEMPLATE    = getScriptProp_('WA_ASSIGN_TEMPLATE', 'automatesystem');   // your new 5-variable template
 const WA_ASSIGN_LANG        = waLangCode_(getScriptProp_('WA_ASSIGN_LANG', 'en'));
@@ -1953,7 +1953,7 @@ function testWhatsAppCloudSend() {
 // ============================================================
 // ATTENDANCE (Google Form responses sheet)
 // ============================================================
-const ATTENDANCE_SHEET_ID   = '1u29kX8m3WtwryRLdbEn7gtkU_xqoHqxBDGji9d4EH4A';
+const ATTENDANCE_SHEET_ID   = '';  //pest the sheet id here to link the attandance sheet
 const ATTENDANCE_SHEET_NAME = 'Form Responses 1';
 const ATTENDANCE_TZ         = 'Asia/Kolkata';   // fixed so "today" is always India date
 
